@@ -37,6 +37,7 @@ BOOL InjectDLLToProcess_main(DWORD procId, char* dll_path)
 		// Create Remote Execution thread
 		HANDLE rmThreadExecution = CreateRemoteThread(applProcess, NULL, NULL, (LPTHREAD_START_ROUTINE)LibAddressToLoad_KERNEL32,
 			Location_LIBRARYLoader, NULL, NULL);
+		WriteProcessMemory(applProcess, NULL, Location_LIBRARYLoader, strlen(dll_path), NULL);
 		// SINGLE OBJECT WAIT PERIOD
 		WaitForSingleObject(applProcess, INFINITE);
 		// FREE DLL PATH
