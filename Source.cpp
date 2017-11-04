@@ -77,7 +77,7 @@ int main()
 	{
 		std::cout << "Process ID of: " << fd_name << ": " << ProcessId << std::endl;
 
-		if (InjectDLLToProcess_main(ProcessId, "C:\\Users\joshs\Desktop\VulnDLL\Debug\VulnDLL.dll")) // Check for validation
+		if (InjectDLLToProcess_main(ProcessId, "C:\\Users\YOUR_NAME\THIS\IS\DLL\PATH\ENTER\IT\HERE")) // Check for validation
 			isDLLInjected = true;
 			std::cout << "DLL Injected Successfully!\n" << std::endl;
 			// Write the Data to the file
