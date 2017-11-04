@@ -1,0 +1,6 @@
+﻿  Source.cpp
+c:\users\joshs\source\repos\findwindow\findwindow\source.cpp(80): warning C4129: 'j': unrecognized character escape sequence
+c:\users\joshs\source\repos\findwindow\findwindow\source.cpp(80): warning C4129: 'D': unrecognized character escape sequence
+c:\users\joshs\source\repos\findwindow\findwindow\source.cpp(80): warning C4129: 'V': unrecognized character escape sequence
+c:\users\joshs\source\repos\findwindow\findwindow\source.cpp(69): warning C4715: 'WriteDataToFile_main': not all control paths return a value
+  findwindow.vcxproj -> c:\users\joshs\source\repos\findwindow\Debug\findwindow.exe
