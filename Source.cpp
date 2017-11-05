@@ -5,6 +5,8 @@
 #include <string>
 #include <fstream>
 
+#define SIZE 500
+
 DWORD ProcessId;
 BOOL isDLLInjected = false;
 
@@ -14,15 +16,16 @@ static DWORD FindWindowProcessId_main(char* fd_name)
 	ProcessId = GetWindowThreadProcessId(hWindow, &ProcessId); // Get the Proceess Id of fd_name
 	if (hWindow) return TRUE;
 	else {
-		std::cerr << "Could Not Find Process ID";
+		std::cerr << "\nCould Not Find Process ID";
 		return FALSE;
 	}
 	return FALSE;
 }
 
-BOOL InjectDLLToProcess_main(DWORD procId, char* dll_path)
+BOOL InjectDLLToProcess_main(DWORD procId, PCHAR dll_path)
 {
 	// Open the app process ALLOWED: ALL_ACCESS
+	char si[SIZE];
 	HANDLE applProcess = OpenProcess(PROCESS_ALL_ACCESS, 0, procId);
 	if (applProcess)
 	{
@@ -37,7 +40,7 @@ BOOL InjectDLLToProcess_main(DWORD procId, char* dll_path)
 		// Create Remote Execution thread
 		HANDLE rmThreadExecution = CreateRemoteThread(applProcess, NULL, NULL, (LPTHREAD_START_ROUTINE)LibAddressToLoad_KERNEL32,
 			Location_LIBRARYLoader, NULL, NULL);
-		if (!WriteProcessMemory(applProcess, Location_LIBRARYLoader, (LPVOID)si, strlen(dll_path) + 1, NULL))
+		if (!WriteProcessMemory(applProcess, Location_LIBRARYLoader, dll_path, strlen(dll_path) + 1, NULL)) 
 			return FALSE;
 		// SINGLE OBJECT WAIT PERIOD
 		WaitForSingleObject(applProcess, INFINITE);
@@ -52,9 +55,9 @@ BOOL InjectDLLToProcess_main(DWORD procId, char* dll_path)
 
 static BOOL WriteDataToFile_main(const char* file_name)
 {
-	std::ofstream writeFile;
+	std::ofstream writeFile; // FILE OBJECT
 	writeFile.open(file_name);
-	if (writeFile)
+	if (writeFile) // IF THE ITS VALID, WRITE THE DATA
 	{
 		isDLLInjected = true;
 		// Write The Data to the file
@@ -78,7 +81,7 @@ int main()
 	{
 		std::cout << "Process ID of: " << fd_name << ": " << ProcessId << std::endl;
 
-		if (InjectDLLToProcess_main(ProcessId, "C:\\Users\YOUR_NAME\THIS\IS\DLL\PATH\ENTER\IT\HERE")) // Check for validation
+		if (InjectDLLToProcess_main(ProcessId, "C:\\VulnDLL.dll")) // Check for validation
 			isDLLInjected = true;
 			std::cout << "DLL Injected Successfully!\n" << std::endl;
 			// Write the Data to the file
